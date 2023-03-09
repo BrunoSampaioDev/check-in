@@ -1,17 +1,19 @@
-import "dotenv/config";
-import { z } from "zod";
+import 'dotenv/config'
+import { z } from 'zod'
 
 const envSchema = z.object({
-  NODE_ENV: z.enum(["dev", "test", "production"]).default("dev"),
+  NODE_ENV: z.enum(['dev', 'test', 'production']).default('dev'),
   PORT: z.coerce.number().default(3333),
-});
+})
 
-const _env = envSchema.safeParse(process.env);
+const _env = envSchema.safeParse(process.env)
 
 if (_env.success === false) {
-  console.error("Invalid enviroment error", _env.error.format());
+  // eslint-disable-next-line no-console
+  console.error('Invalid enviroment error', _env.error.format())
 
-  throw new Error("Invalid enviroment error");
+  throw new Error('Invalid enviroment error')
 }
 
-export const env = _env.data;
+const env = _env.data
+export default env

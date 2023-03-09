@@ -13,12 +13,40 @@
         "sourceType": "module"
     },
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "simple-import-sort"
     ],
     "rules": {
       "no-underscore-dangle": "off",
       "import/prefer-default-export": "off",
       "import/extensions": "off",
-      "import/no-unresolved": "off"
+      "import/no-unresolved": "off",
+      "simple-import-sort/exports": "error",
+      "simple-import-sort/imports": [
+        "warn",
+        {
+          "groups": [
+             // Packages. `node` related packages come first.
+            ["^node"],
+            // // Internal packages.
+            ["^(@/)(/.*|$)"],
+            // // Parent imports. Put `..` last.
+            ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+            // // Other relative imports. Put same-folder imports and `.` last.
+            ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"]
+          ]
+        }
+      ],
+      "import/order": ["warn", {
+        "newlines-between": "always",
+        "pathGroups": [
+          {
+            "pattern": "@/**",
+            "group": "internal",
+            "position": "after"
+          }
+        ],
+        "distinctGroup": false
+      }]
     }
 }
